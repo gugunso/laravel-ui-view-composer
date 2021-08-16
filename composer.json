@@ -1,0 +1,65 @@
+{
+    "name": "gugunso/laravel-ui-view-composer",
+    "authors": [
+        {
+            "name": "gugunso",
+            "email": "gugunso@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/gugunso/laravel-ui-utils.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/gugunso/common-structures.git"
+        }
+    ],
+
+    "require": {
+        "php": ">=7.2",
+        "gugunso/laravel-ui-utils": "0.1.*",
+        "gugunso/common-structures": "0.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gugunso\\LaravelUiViewComposer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gugunso\\LaravelUiViewComposer\\Test\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "mockery/mockery": "*",
+        "vimeo/psalm": "*",
+        "infection/infection": "*",
+        "maglnet/composer-require-checker": "*",
+        "slevomat/coding-standard": "*",
+        "squizlabs/php_codesniffer": "*",
+        "jakub-onderka/php-parallel-lint": "*",
+        "orchestra/testbench": "^6.18",
+        "phpmetrics/phpmetrics": "*",
+        "pdepend/pdepend": "*"
+    },
+    "scripts": {
+        "syntax": "phpdbg -qrr vendor/bin/parallel-lint ./src ./tests --exclude ./vendor",
+        "phpunit": "phpdbg -qrr vendor/bin/phpunit --coverage-html qa/coverage",
+        "infection": "vendor/bin/infection",
+        "psalm": "phpdbg -qrr vendor/bin/psalm --show-info=true",
+        "phpcs": "vendor/bin/phpcs  ./src --extensions=php --tab-width=4 -sp --standard=./ruleset.xml",
+        "phpcbf": "vendor/bin/phpcbf ./src --extensions=php --tab-width=4 -sp --standard=./ruleset.xml",
+        "pdpend": "vendor/bin/pdepend --summary-xml=/tmp/summary.xml --jdepend-chart=./qa/pdpend/jdepend.svg --overview-pyramid=./qa/pdpend/pyramid.svg ./src",
+        "phpmetrics": "vendor/bin/phpmetrics --report-html=qa/phpmetrics/report src/",
+        "qa": [
+            "composer syntax",
+            "composer psalm",
+            "composer phpcs",
+            "composer phpunit",
+            "composer infection"
+        ]
+    }
+}

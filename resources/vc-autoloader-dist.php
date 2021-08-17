@@ -29,9 +29,9 @@ return [
     | ViewComposerが実装してなければならないインターフェース/基底クラス名。
     | viewに対する割り当てを行うかどうかの判断条件となる。
     | このインターフェースを実装しているViewComposerのみ、viewに対する割り当てが行われる。
-    | デフォルト設定値は \App\Http\View\Composers\Contract\ViewComposerInterface::class
+    | デフォルト設定値は \Gugunso\LaravelUiViewComposer\Contract\ViewComposerInterface::class
     */
-    'interface' => \App\Http\View\Composers\Contract\ViewComposerInterface::class,
+    'interface' => \Gugunso\LaravelUiViewComposer\Contract\ViewComposerInterface::class,
 
     /*
     |--------------------------------------------------------------------------

@@ -61,5 +61,14 @@
             "composer phpunit",
             "composer infection"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gugunso\\LaravelUiViewComposer\\ServiceProvider",
+                "Gugunso\\LaravelUiViewComposer\\AutoLoadServiceProvider"
+            ]
+        }
     }
+
 }

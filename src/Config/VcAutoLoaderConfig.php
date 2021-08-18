@@ -53,7 +53,7 @@ class VcAutoLoaderConfig
                 $setting['composer-namespace'],
                 $setting['view-path']
             )) {
-                yield $setting;
+                yield new SettingItem($setting);
             }
         }
     }

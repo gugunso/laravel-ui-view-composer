@@ -41,6 +41,7 @@ abstract class BasicComposer implements ViewParameterCreator, ViewComposerInterf
     }
 
     /**
+     * ViewComposerからviewにアサインしたい内容を配列で返却する。
      * @return array
      */
     abstract public function createParameter(): array;

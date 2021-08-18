@@ -34,7 +34,7 @@ class SettingItem
     public function createFinder(string $suffix): Finder
     {
         $finder = App::make(Finder::class);
-        $finder->files()->in($this->getComposerPath())->name(['*' . $suffix]);
+        $finder->files()->in($this->getComposerPath())->name(['*' . $suffix.'.php']);
         return $finder;
     }
 
@@ -48,7 +48,7 @@ class SettingItem
 
     public function viewComposerNamespace(SplFileInfo $fileInfo, string $suffix): string
     {
-        return $this->getComposerNamespace() . implode('\\', $this->pathAsArray($fileInfo, $suffix)) . 'Composer';
+        return $this->getComposerNamespace() . implode('\\', $this->pathAsArray($fileInfo, $suffix)).$suffix;
     }
 
     /**
@@ -67,7 +67,7 @@ class SettingItem
     public function pathAsArray(SplFileInfo $fileInfo, string $suffix): array
     {
         $composerDir = str_replace($this->getComposerPath(), '', $fileInfo->getPath()) . '/';
-        $baseName = $fileInfo->getBasename($suffix);
+        $baseName = $fileInfo->getBasename($suffix.'.php');
         return explode(DIRECTORY_SEPARATOR, $composerDir . $baseName);
     }
 

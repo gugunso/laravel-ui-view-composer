@@ -16,10 +16,12 @@ return [
     | suffix
     |--------------------------------------------------------------------------
     | string
-    | ViewComposer実装クラスを検出する際にフィルタとなる拡張子。
-    | デフォルト設定値は 'Composer.php'
+    | ViewComposer実装クラスを検出する際にフィルタとなるクラス名の接尾辞。
+    | ファイル拡張子の指定は不可。検出対象は .php で固定。
+    | 設定値が 'Composer' の場合、ファイル名末尾が Composer.php であるファイルが検出対象となる
+    | デフォルト設定値は 'Composer'
     */
-    'suffix' => 'Composer.php',
+    'suffix' => 'Composer',
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +30,7 @@ return [
     | string
     | ViewComposerが実装してなければならないインターフェース/基底クラス名。
     | viewに対する割り当てを行うかどうかの判断条件となる。
-    | このインターフェースを実装しているViewComposerのみ、viewに対する割り当てが行われる。
+    | この項目で設定した名称のインターフェース/基底クラス のサブクラスを実装していない場合、viewに対する割り当てが行われない。
     | デフォルト設定値は \Gugunso\LaravelUiViewComposer\Contract\ViewComposerInterface::class
     */
     'interface' => \Gugunso\LaravelUiViewComposer\Contract\ViewComposerInterface::class,

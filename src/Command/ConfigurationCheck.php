@@ -47,16 +47,17 @@ class ConfigurationCheck extends Command
      */
     private function details()
     {
-        $this->info('==== detail ====');
-        ;
+        $this->info('==== detail ====');;
 
         $i = 1;
         /** @var SettingItem $settingItem */
         foreach ($this->handler->details() as $array) {
+            $detail = [];
             $this->info('[Setting No.' . $i . '] ' . $array['composerPath']);
             foreach ($array['details'] as $arrayDetail) {
-                $this->detail($arrayDetail);
+                $detail[] = $this->detail($arrayDetail);
             }
+            $this->table(['Found ViewComposers', 'implements', 'view name', 'view exists', 'status'], $detail);
 
             $i++;
         }
@@ -64,12 +65,13 @@ class ConfigurationCheck extends Command
 
     /**
      * @param array $detail
+     * @return array
      */
-    private function detail(array $detail)
+    private function detail(array $detail): array
     {
         $detail[1] = $detail[1] ? 'YES' : 'NO';
         $detail[3] = $detail[3] ? 'YES' : 'NO';
         $detail[4] = $detail[4] ? 'OK' : 'NG';
-        $this->table(['Found ViewComposers', 'implements', 'view name', 'view exists', 'status'], $detail);
+        return $detail;
     }
 }

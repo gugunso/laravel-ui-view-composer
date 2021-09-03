@@ -3,7 +3,6 @@
 namespace Gugunso\LaravelUiViewComposer\Command;
 
 use Gugunso\LaravelUiViewComposer\Config\SettingItem;
-use Gugunso\LaravelUiViewComposer\Config\VcAutoLoaderConfig;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 
@@ -17,13 +16,9 @@ class ConfigurationCheck extends Command
     /** @var ConfigurationCheckHandler $handler */
     private $handler;
 
-    /**
-     *
-     */
     public function handle()
     {
         $this->init();
-
         $this->commonConfig();
         $this->details();
     }

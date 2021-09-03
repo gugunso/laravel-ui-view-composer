@@ -68,13 +68,10 @@ class AutoLoadServiceProvider extends ServiceProvider
         $viewPathAsDotNotation = $settingItem->viewPathAsDotNotation($fileInfo,$config->getSuffix());
 
         //検出されたViewComposerのインターフェースをチェック
-        $interface = $config->getInterface();
-
-        if ($interface) {
-            if (!is_subclass_of($nameSpace, $interface)) {
-                return;
-            }
+        if(!$config->namespaceImplementsInterface($nameSpace)){
+            return ;
         }
+
         //ViewComposerを適用
         View::composer($viewPathAsDotNotation, $nameSpace);
     }

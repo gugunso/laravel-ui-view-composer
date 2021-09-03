@@ -77,7 +77,10 @@ class VcAutoLoaderConfig
     public function namespaceImplementsInterface(string $nameSpace)
     {
         $interface = $this->getInterface();
-        return ($interface && !is_subclass_of($nameSpace, $interface));
+        if(!$interface){
+            return true;
+        }
+        return (is_subclass_of($nameSpace, $interface));
     }
 
     /**

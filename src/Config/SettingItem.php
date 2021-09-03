@@ -46,6 +46,11 @@ class SettingItem
         return $this->composerPath;
     }
 
+    /**
+     * @param SplFileInfo $fileInfo
+     * @param string $suffix
+     * @return string
+     */
     public function viewComposerNamespace(SplFileInfo $fileInfo, string $suffix): string
     {
         return $this->getComposerNamespace() . implode('\\', $this->pathAsArray($fileInfo, $suffix)).$suffix;

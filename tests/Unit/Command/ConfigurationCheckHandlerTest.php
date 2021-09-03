@@ -26,11 +26,21 @@ class ConfigurationCheckHandlerTest extends TestCase
     {
         $this->setDummyConfig(true, 'Composer', '', []);
 
-
+        $stubViewFinderInterface = \Mockery::mock(ViewFinderInterface::class);
         $stubConfig = \Mockery::mock(VcAutoLoaderConfig::class)->makePartial();
         $viewFactory = \Mockery::mock(Factory::class);
-        $viewFactory->shouldReceive('getFinder')->andReturnNull();
+        $viewFactory->shouldReceive('getFinder')->andReturn($stubViewFinderInterface);
         $targetClass = new $this->testClassName($stubConfig, $viewFactory);
+
+        \Closure::bind(
+            function () use ($targetClass, $stubConfig, $stubViewFinderInterface) {
+                //assertions
+                $this->assertSame($stubConfig, $targetClass->config);
+                $this->assertSame($stubViewFinderInterface, $targetClass->viewFinder);
+            },
+            $this,
+            $targetClass
+        )->__invoke();
     }
 
     public function setDummyConfig($enable, $suffix, $interface, $settings)
@@ -192,10 +202,10 @@ class ConfigurationCheckHandlerTest extends TestCase
 
         //テスト対象メソッドの実行
         \Closure::bind(
-            function () use ($targetClass,$stubViewFinderInterface) {
+            function () use ($targetClass, $stubViewFinderInterface) {
                 $actual = $targetClass->getViewFinder();
                 //assertions
-                $this->assertSame($stubViewFinderInterface,$actual);
+                $this->assertSame($stubViewFinderInterface, $actual);
             },
             $this,
             $targetClass

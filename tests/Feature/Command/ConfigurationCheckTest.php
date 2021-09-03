@@ -3,6 +3,7 @@
 namespace Gugunso\LaravelUiViewComposer\Test\Feature\Command;
 
 use Gugunso\LaravelUiViewComposer\Command\ConfigurationCheck;
+use Illuminate\Support\Facades\Config;
 
 
 /**
@@ -15,10 +16,22 @@ class ConfigurationCheckTest extends Base
     protected $testClassName = ConfigurationCheck::class;
 
     /**
-     * @covers ::
+     * @covers ::handle
+     * @covers ::init
+     * @covers ::commonConfig
+     * @covers ::details
      */
-    public function test_()
+    public function test_handle()
     {
-        $this->artisan('laravel-ui-view-composer:config-check');
+        Config::set('vc-autoloader.enable', true);
+        Config::set('vc-autoloader.suffix', 'Composer');
+        Config::set('vc-autoloader.interface', '');
+        Config::set('vc-autoloader.settings', []);
+
+        $this->artisan('laravel-ui-view-composer:config-check')
+            ->expectsOutput('==== common setting ====')
+            ->expectsOutput('enable:true')
+            ->expectsOutput('suffix:Composer')
+            ->assertExitCode(0);
     }
 }

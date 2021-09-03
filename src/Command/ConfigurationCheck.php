@@ -47,7 +47,8 @@ class ConfigurationCheck extends Command
      */
     private function details()
     {
-        $this->info('==== detail ====');;
+        $this->info('==== detail ====');
+        ;
 
         $i = 1;
         /** @var SettingItem $settingItem */

@@ -15,17 +15,35 @@ class ServiceProvider extends BaseProvider
     {
         //コマンドの登録
         if ($this->app->runningInConsole()) {
-            $this->commands(
-                [
-                    ConfigurationCheck::class,
-                ]
-            );
+            $this->commands($this->commandsToRegister());
         }
 
-        $this->publishes(
-            [
-                realpath(__DIR__ . '/../resources/vc-autoloader-dist.php') => config_path('vc-autoloader.php'),
-            ]
-        );
+        //リソースのコピー
+        $this->publishes($this->itemsToPublish());
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function commandsToRegister()
+    {
+        return [
+            ConfigurationCheck::class
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function itemsToPublish(): array
+    {
+        $result = [];
+
+        $source = realpath(__DIR__ . '/../resources/vc-autoloader-dist.php');
+        $dist = config_path('vc-autoloader.php');
+        if ($source && $dist) {
+            $result[$source] = $dist;
+        }
+        return $result;
     }
 }

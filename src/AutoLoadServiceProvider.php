@@ -63,12 +63,12 @@ class AutoLoadServiceProvider extends ServiceProvider
         /** @var VcAutoLoaderConfig $config */
         $config = App::make(VcAutoLoaderConfig::class);
         //名前空間に変換
-        $nameSpace = $settingItem->viewComposerNamespace($fileInfo,$config->getSuffix());
+        $nameSpace = $settingItem->viewComposerNamespace($fileInfo, $config->getSuffix());
         //ドット記法のViewファイルパスに変換
-        $viewPathAsDotNotation = $settingItem->viewPathAsDotNotation($fileInfo,$config->getSuffix());
+        $viewPathAsDotNotation = $settingItem->viewPathAsDotNotation($fileInfo, $config->getSuffix());
 
         //検出されたViewComposerのインターフェースをチェック
-        if(!$config->namespaceImplementsInterface($nameSpace)){
+        if (!$config->namespaceImplementsInterface($nameSpace)) {
             return ;
         }
 

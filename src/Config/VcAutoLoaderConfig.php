@@ -38,11 +38,13 @@ class VcAutoLoaderConfig
             $setting['composer-path'] = $setting['composer-path'] ?? '';
             $setting['composer-namespace'] = $setting['composer-namespace'] ?? 'App\\';
             $setting['view-path'] = $setting['view-path'] ?? '';
-            if ($this->isValidSettings(
-                $setting['composer-path'],
-                $setting['composer-namespace'],
-                $setting['view-path']
-            )) {
+            if (
+                $this->isValidSettings(
+                    $setting['composer-path'],
+                    $setting['composer-namespace'],
+                    $setting['view-path']
+                )
+            ) {
                 yield new SettingItem($setting);
             }
         }
@@ -77,7 +79,7 @@ class VcAutoLoaderConfig
     public function namespaceImplementsInterface(string $nameSpace)
     {
         $interface = $this->getInterface();
-        if(!$interface){
+        if (!$interface) {
             return true;
         }
         return (is_subclass_of($nameSpace, $interface));
@@ -106,5 +108,4 @@ class VcAutoLoaderConfig
         }
         return false;
     }
-
 }

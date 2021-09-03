@@ -2,7 +2,6 @@
 
 namespace Gugunso\LaravelUiViewComposer\Config;
 
-
 use Illuminate\Support\Facades\App;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
@@ -34,7 +33,7 @@ class SettingItem
     public function createFinder(string $suffix): Finder
     {
         $finder = App::make(Finder::class);
-        $finder->files()->in($this->getComposerPath())->name(['*' . $suffix.'.php']);
+        $finder->files()->in($this->getComposerPath())->name(['*' . $suffix . '.php']);
         return $finder;
     }
 
@@ -53,7 +52,7 @@ class SettingItem
      */
     public function viewComposerNamespace(SplFileInfo $fileInfo, string $suffix): string
     {
-        return $this->getComposerNamespace() . implode('\\', $this->pathAsArray($fileInfo, $suffix)).$suffix;
+        return $this->getComposerNamespace() . implode('\\', $this->pathAsArray($fileInfo, $suffix)) . $suffix;
     }
 
     /**
@@ -72,7 +71,7 @@ class SettingItem
     public function pathAsArray(SplFileInfo $fileInfo, string $suffix): array
     {
         $composerDir = str_replace($this->getComposerPath(), '', $fileInfo->getPath()) . '/';
-        $baseName = $fileInfo->getBasename($suffix.'.php');
+        $baseName = $fileInfo->getBasename($suffix . '.php');
         return explode(DIRECTORY_SEPARATOR, $composerDir . $baseName);
     }
 

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Gugunso\LaravelUiViewComposer\Command;
-
 
 use Gugunso\LaravelUiViewComposer\Config\SettingItem;
 use Gugunso\LaravelUiViewComposer\Config\VcAutoLoaderConfig;
@@ -29,7 +27,7 @@ class ConfigurationCheckHandler
     }
 
     /**
-     * @return array
+     * @return iterable
      */
     public function details(): iterable
     {
@@ -103,6 +101,4 @@ class ConfigurationCheckHandler
     {
         return $this->viewFinder;
     }
-
-
 }

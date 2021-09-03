@@ -27,16 +27,6 @@ class VcAutoLoaderConfig
     }
 
     /**
-     * getInterface
-     *
-     * @return string
-     */
-    public function getInterface()
-    {
-        return Config::get('vc-autoloader.interface');
-    }
-
-    /**
      * getValidDirectory
      *
      * @return iterable
@@ -78,6 +68,40 @@ class VcAutoLoaderConfig
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param string $nameSpace
+     * @return bool
+     */
+    public function namespaceImplementsInterface(string $nameSpace)
+    {
+        $interface = $this->getInterface();
+        return ($interface && !is_subclass_of($nameSpace, $interface));
+    }
+
+    /**
+     * getInterface
+     *
+     * @return string
+     */
+    public function getInterface()
+    {
+        return Config::get('vc-autoloader.interface');
+    }
+
+    /**
+     * @return bool
+     */
+    public function interfaceExists(): bool
+    {
+        if (interface_exists($this->getInterface())) {
+            return true;
+        }
+        if (class_exists($this->getInterface())) {
+            return true;
+        }
+        return false;
     }
 
 }

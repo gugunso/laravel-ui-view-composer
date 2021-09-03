@@ -1,4 +1,20 @@
 # laravel-ui-view-composer
+# インストール方法
+composer を利用してインストールして下さい。
+
+依存関係で問題が生じた場合、composer.json に以下を追記します。
+~~~composer.json
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/gugunso/laravel-ui-utils.git"
+        }
+        {
+            "type": "vcs",
+            "url": "https://github.com/gugunso/common-structures.git"
+        }
+    ],
+~~~
 
 # このパッケージが提供する機能
 - AutoLoadServiceProvider : ViewComposerを自動的にviewに割り当てるサービス・プロバイダ  
@@ -17,6 +33,11 @@ ViewComposerを自動的にviewに割り当てるサービス・プロバイダ�
 
 ~~~ 
 php artisan vendor:publish
+~~~
+
+選択肢が表示された場合、下記を選択します。
+~~~
+Provider: Gugunso\LaravelUiViewComposer\ServiceProvider
 ~~~
 
 初期設定ではこの機能は無効（enable : false）になっていますので、機能を利用する場合は設定ファイルを環境にあわせて修正した上で、trueに変更して下さい。
@@ -317,7 +338,7 @@ class ExampleCustomBuilder implements FormValueBuilder
 
     /**
      * $formValuesの内容を生成する。このサンプルでは、データベースの列名とviewファイルのフォーム名のミスマッチを解決するために
-     * 適切な内容に変換する処理をイメージしている。
+     * 内容に変換する処理をイメージしている。
      * @return Collection
      */
     public function build(): Collection
@@ -333,95 +354,54 @@ class ExampleCustomBuilder implements FormValueBuilder
 
 ~~~
 
+### $formValues 以外の変数をアサインする
 
+$formValues 以外にviewにアサインしたい変数がある場合、ViewParameterCreatorインターフェースをimplementしてください。
 
+#### サンプル
 
-
-# インストール
-composer.json に以下追記
-~~~composer.json
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/gugunso/laravel-ui-utils.git"
-        }
-        {
-            "type": "vcs",
-            "url": "https://github.com/gugunso/common-structures.git"
-        }
-    ],
-~~~
-
-
-
-~~~ sh
-php artisan vendor:publish
-~~~
-
-選択肢が表示されるので、以下を選択。
-~~~
-Provider: Gugunso\LaravelUiViewComposer\ServiceProvider
-~~~
-
-# 使い方
-## BasicComposer
-かんたん
 ~~~ php
-use Gugunso\LaravelUiViewComposer\BasicComposer;
+<?php
+    
+namespace App\Http\View\Composers\Contents\Web;
+
+use Gugunso\LaravelUiViewComposer\Contract\ViewParameterCreator;
+use Gugunso\LaravelUiViewComposer\FormComposer;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 /**
- * ExampleComposer
- *
- * @package App\Http\View\Composers\Contents\Web
+ * Class FormSampleComposer
+ * ViewParameterCreator を implementする。
  */
-class ExampleComposer extends BasicComposer
+class FormSampleComposer extends FormComposer implements ViewParameterCreator
 {
     public function createParameter(): array
     {
-        return [
-            'test' => 'てすとだよ！'
-        ];
+        //$formValues以外にviewにアサインしたい内容
     }
-}
-~~~
 
-## FormComposer
-ちょっとむずかしい（Readme編集中・・・） 
-~~~ php
-use Gugunso\LaravelUiUtils\Http\IdentityHandler;
-use Gugunso\LaravelUiViewComposer\FormComposer;
-use Gugunso\LaravelUiViewComposer\FormValue\Applier\OnDefaultApplier;
-use Gugunso\LaravelUiViewComposer\FormValue\Applier\OnUpdateApplier;
-use Gugunso\LaravelUiViewComposer\FormValue\Builder\ArrayFormValueBuilder;
-use Gugunso\LaravelUiViewComposer\FormValue\Builder\EloquentFormValueBuilder;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
-use Package\Infrastructure\Eloquent\User;
 
-/**
- * FormSampleComposer
- *
- * @package App\Http\View\Composers\Contents\Web
- */
-class FormSampleComposer extends FormComposer
-{
     protected function init(Request $request, View $view): void
     {
-        $defaultBuilder = new ArrayFormValueBuilder(
-            [
-                'name' => '初期値だよにゃ！',
-                'email' => '初期値emailだよ！',
-                'plain_pass' => '初期値ぱすだよ！',
-                'check' => ['']
-            ]
-        );
-
-        $identityHandler = new IdentityHandler($request, $view);
-        $onUpdateBuilder = new EloquentFormValueBuilder($identityHandler->retrieveIdentity(), new User());
-
-        //Applierをaddする順番がそのまま優先度になる。
-        $this->addFormValuesApplier(new OnUpdateApplier($onUpdateBuilder, $identityHandler));
-        $this->addFormValuesApplier(new OnDefaultApplier($defaultBuilder));
+        //$formValuesの制御
     }
 }
+
 ~~~
+
+#### 注意事項
+
+- BasicComposer と同様に、Controllerでviewにアサインされた内容とcreateParameter() メソッドに定義した内容が競合する場合、Controllerでアサインされた内容が優先されます。
+
+- createParameter() メソッドが返却する配列のキーに、'formValues' は利用できません。
+
+- setFormValueParameterName() メソッドによって変数名を変更している場合、その変数名をcreateParameter() メソッドが返却する配列のキーに利用することはできません。
+
+# 注意事項
+予告なく実装を変更することがあります。
+
+production 環境で利用する場合などは、バージョンを厳密に指定して、意図しない更新が行われないよう自己責任で管理してください。
+
+本パッケージの更新に伴い、利用アプリケーションにバグ、障害等が発生しても一切責任は負いません。
+
